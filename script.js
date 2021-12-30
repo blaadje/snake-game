@@ -105,9 +105,10 @@ function moveRectangle({ x, y }) {
 }
 
 function drawRectangle({ x, y }) {
-  context.fillStyle = 'black'
-
-  context.fillRect(x * size, y * size, size, size)
+  context.beginPath();
+  context.strokeStyle = 'black';
+  context.rect(x * size, y * size, size, size)
+  context.stroke()
 }
 
 function growSnake() {
@@ -168,7 +169,7 @@ function drawSnake() {
 
 function draw() {
   // Reset Canvas
-  context.fillStyle = 'white'
+  context.fillStyle = '#a1c53d'
   context.fillRect(-projectionX, -projectionY, width, height)
 
   // Do stuff
