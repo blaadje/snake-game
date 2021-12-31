@@ -1,0 +1,13 @@
+.scoreWrapper {
+  font-size: 26px;
+  font-family: sans-serif;
+  color: white;
+}
+
+canvas {
+  border-radius: 8px;
+}
+
+body {
+  background: #1d2231;
+}

@@ -42,7 +42,7 @@ function getRandomArbitrary(min, max) {
 function generateFood() {
   const x = getRandomArbitrary(leftLimit, rightLimit)
   const y = getRandomArbitrary(bottomLimit, topLimit)
-  
+
   return createNode(x, y)
 }
 
@@ -123,7 +123,7 @@ function roundRect(x, y, w, h, radius) {
 
 function drawRectangle({ x, y }) {
   context.beginPath();
-  context.fillStyle = 'black';
+  context.fillStyle = '#1d2231';
   roundRect(x * size, y * size, size, size, 6)
 }
 
