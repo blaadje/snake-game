@@ -4,21 +4,22 @@ const width = 600;
 const height = 600;
 const projectionX = width / 2;
 const projectionY = height / 2;
-const size = 20
-const leftLimit = -projectionX / size
-const rightLimit = projectionX / size
-const bottomLimit = -projectionY / size
-const topLimit = projectionY / size
+const size = 15
+const leftLimit = (-projectionX / size)
+const rightLimit = (projectionX / size) - 1
+const bottomLimit = (-projectionY / size)
+const topLimit = (projectionY / size) - 1
 const speed = 2
 const DIRECTION_UP = 'up'
 const DIRECTION_DOWN = 'down'
 const DIRECTION_LEFT = 'left'
 const DIRECTION_RIGHT = 'right'
+const snakeLength = 3
 
 let food = generateFood()
 let interval = null
 let direction = DIRECTION_LEFT
-let snake = generateSnake(3)
+let snake = generateSnake(snakeLength)
 let tempSnake = []
 let score = setScore(0)
 
@@ -41,7 +42,7 @@ function getRandomArbitrary(min, max) {
 function generateFood() {
   const x = getRandomArbitrary(leftLimit, rightLimit)
   const y = getRandomArbitrary(bottomLimit, topLimit)
-  console.log(x, y)
+  
   return createNode(x, y)
 }
 
@@ -104,11 +105,26 @@ function moveRectangle({ x, y }) {
   }
 }
 
+function roundRect(x, y, w, h, radius) {
+  const r = x + w;
+  const b = y + h;
+
+  context.moveTo(x + radius, y);
+  context.lineTo(r - radius, y);
+  context.quadraticCurveTo(r, y, r, y + radius);
+  context.lineTo(r, y + h - radius);
+  context.quadraticCurveTo(r, b, r - radius, b);
+  context.lineTo(x + radius, b);
+  context.quadraticCurveTo(x, b, x, b - radius);
+  context.lineTo(x, y + radius);
+  context.quadraticCurveTo(x, y, x + radius, y);
+  context.fill();
+}
+
 function drawRectangle({ x, y }) {
   context.beginPath();
-  context.strokeStyle = 'black';
-  context.rect(x * size, y * size, size, size)
-  context.stroke()
+  context.fillStyle = 'black';
+  roundRect(x * size, y * size, size, size, 6)
 }
 
 function growSnake() {
@@ -118,11 +134,9 @@ function growSnake() {
 }
 
 function hasSelfCollision(head) {
-  return snake.some((node, index) => {
-    if (index === 0) {
-      return false
-    }
+  const [_head, ...body] = snake
 
+  return body.some((node, index) => {
     return hasCollision(head, node)
   })
 }
@@ -142,8 +156,10 @@ function drawSnake() {
     snake[0] = head
 
     if (hasSelfCollision(head)) {
-      clearInterval(interval)
-      console.log('game over')
+      score = setScore(0)
+      snake = generateSnake(snakeLength)
+      tempSnake = []
+      alert('game over')
       return
     }
 
@@ -169,7 +185,7 @@ function drawSnake() {
 
 function draw() {
   // Reset Canvas
-  context.fillStyle = '#a1c53d'
+  context.fillStyle = '#b0cb9e'
   context.fillRect(-projectionX, -projectionY, width, height)
 
   // Do stuff
