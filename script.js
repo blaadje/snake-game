@@ -159,6 +159,7 @@ function drawSnake() {
       score = setScore(0)
       snake = generateSnake(snakeLength)
       tempSnake = []
+      direction = DIRECTION_LEFT
       alert('game over')
       return
     }
